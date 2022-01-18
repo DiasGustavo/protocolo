@@ -213,24 +213,10 @@ public class ProtocoloBean {
 				protocoloCadastro.setArquivos(listaArquivos);
 				Long codigo = null;
 				codigo = pdao.salvar(protocoloCadastro);
-				/*buscar o protocolo criado para poder gerar o código do protocolo*/
-				Protocolo protocoloed = pdao.buscarPorCodigo(codigo);
-				ArquivoDAO adao = new ArquivoDAO();
-				// listaArquivos = adao.buscarPorCodigoProcesso(codigo);
-				listaArquivos = adao.buscarListaSetPorCodigo(codigo);
-				arquivos = adao.buscarListaArquivosPorCodigo(codigo);
-				protocoloed.setArquivos(listaArquivosTemp);
 				
-				//gera o código
-				Date ano = null;
-				int anoCapturado = ano.getYear();
-				String codprotocolo = anoCapturado+protocoloed.getSecretaria().getCodigo()+protocoloed.getId();
-				protocoloed.setProtocolo(codprotocolo);
-				pdao.editar(protocoloed);
+				String protocolo = gerarCodigoProtocolo(codigo);
 				
-				protocoloed = pdao.buscarPorCodigo(codigo);
-				
-				FacesUtil.addMsgInfo("Protocolo N° "+ protocoloed.getProtocolo()+" \n  Cadastrado com Sucesso!");
+				FacesUtil.addMsgInfo("Protocolo N° "+ protocolo +" \n  Cadastrado com Sucesso!");
 			}else{
 				FacesUtil.addMsgErro("Anexe o arquivo do processo");
 			}
@@ -248,6 +234,27 @@ public class ProtocoloBean {
 		} catch (RuntimeException ex) {
 			FacesUtil.addMsgErro("Ocorreu erro ao carregar os protocolos");
 		}
+	}
+	
+	public String gerarCodigoProtocolo(Long codigo){
+		/*buscar o protocolo criado para poder gerar o código do protocolo*/
+		ProtocoloDAO pdao = new ProtocoloDAO();
+		Protocolo protocoloed = pdao.buscarPorCodigo(codigo);
+		
+		protocoloed = pdao.buscarPorCodigo(codigo);
+
+		ArquivoDAO adao = new ArquivoDAO();
+		listaArquivos = adao.buscarListaSetPorCodigo(codigo);
+		arquivos = adao.buscarListaArquivosPorCodigo(codigo);
+		
+		//gera o código
+		Date ano = null;
+		int anoCapturado = ano.getYear();
+		String codprotocolo = anoCapturado+protocoloed.getSecretaria().getCodigo()+protocoloed.getId();
+		protocoloed.setProtocolo(codprotocolo);
+		pdao.editar(protocoloed);
+		
+		return codprotocolo;
 	}
 
 	public void carregarDados() {
