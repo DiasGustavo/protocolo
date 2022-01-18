@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:event listener="#{protocoloBean.listarResponsavel}"
+				type="preRenderView" />
+		</f:metadata>
+	</ui:define>
+	<ui:define name="conteudo">
+		<!--  <h:outputText value="Bem Vindo ao Gerenciador de Documentos"></h:outputText> -->
+		<!-- <h:graphicImage library="images" name="fundo1.png"
+					styleClass="image-principal" /> -->
+
+		<p:panelGrid columns="2"
+			columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+			layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+			style="border:0px none; background-color:transparent;">
+			<p:panel id="pemanalise" header="Em análise">
+				<h:outputText value="#{protocoloBean.emAnalise}" />
+			</p:panel>
+
+			<p:panel  header="Analisados" >
+				<h:outputText value="#{protocoloBean.analisados}" />
+			</p:panel>
+		</p:panelGrid>
+		<p:spacer></p:spacer>
+		<p:spacer></p:spacer>
+		<p:spacer></p:spacer>
+		<p:spacer></p:spacer>
+		<p:spacer></p:spacer>
+		<p:spacer></p:spacer>
+
+		<p:toolbar>
+			<f:facet name="left">
+				<h:outputText value="Meus Processos" />
+			</f:facet>
+		</p:toolbar>
+
+		<p:dataTable id="tblDocumentos"
+			emptyMessage="Nenhum registro encontrado."
+			value="#{protocoloBean.listaProtocolos}"
+			filteredValue="#{protocoloBean.listaProtocolosFiltrados}"
+			var="protocolo" rows="5" paginator="true"
+			rowStyleClass="#{protocolo.status == 'analisado' ? 'status_saida': null}">
+			
+			<p:column headerText="Código" style="width: 4%; text-align: center;">
+				<h:outputText value="#{protocolo.id}" />
+			</p:column>
+
+			<p:column headerText="Nº Antigo" 
+				style="width: 4%; text-align: center;">
+				<h:outputText value="#{protocolo.processo}" />
+			</p:column>
+
+			<p:column headerText="Responsável"
+				style="width: 8%; text-align: center;">
+				<h:outputText value="#{protocolo.responsavel.nome}" />
+			</p:column>
+
+			<p:column headerText="Entrada" style="width: 4%; text-align: center;">
+				<h:outputText value="#{protocolo.dataEntrada}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Saída" style="width: 4%; text-align: center;">
+				<h:outputText value="#{protocolo.dataSaida}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Status"
+				style="width: 4%; text-align: center;">
+				<h:outputText value="#{protocolo.status}" />
+			</p:column>
+
+
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>
+
+</html>
