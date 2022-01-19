@@ -3,7 +3,9 @@ package br.com.gerentedocumento.bean;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -248,8 +250,9 @@ public class ProtocoloBean {
 		arquivos = adao.buscarListaArquivosPorCodigo(codigo);
 		
 		//gera o código
-		Date ano = null;
-		int anoCapturado = ano.getYear();
+		//Date ano = null;
+		Calendar cal = GregorianCalendar.getInstance();
+		int anoCapturado = cal.get(Calendar.YEAR);
 		String codprotocolo = anoCapturado+protocoloed.getSecretaria().getCodigo()+protocoloed.getId();
 		protocoloed.setProtocolo(codprotocolo);
 		pdao.editar(protocoloed);
