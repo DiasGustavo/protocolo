@@ -26,7 +26,7 @@ public class FuncionarioDAOTest {
 		OrgaoDAO odao = new OrgaoDAO();
 		Orgao orgao = odao.buscarPorCodigo(1L);
 		
-		funcionario.setOrgao(orgao);
+		funcionario.getSecretria().setOrgao(orgao);
 		funcionario.setFuncao("administrador");
 		
 		FuncionarioDAO fdao = new FuncionarioDAO();

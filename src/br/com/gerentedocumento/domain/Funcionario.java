@@ -61,10 +61,10 @@ public class Funcionario {
 	@Column(name = "senha", length = 50, nullable = false)
 	private String senha;
 	
-	@NotNull(message = "o campo orgão é obrigatório")
+	@NotNull(message = "o campo secretaria é obrigatório")
 	@ManyToOne(fetch =FetchType.EAGER)
-	@JoinColumn(name = "orgao_fk", referencedColumnName = "cod_orgao", nullable=false)
-	private Orgao orgao;
+	@JoinColumn(name = "secretaria_fk", referencedColumnName = "cod_sec", nullable=false)
+	private Secretaria secretria;
 
 	public Long getId() {
 		return id;
@@ -130,12 +130,19 @@ public class Funcionario {
 		this.senha = senha;
 	}
 	
-	public Orgao getOrgao() {
+	/*public Orgao getOrgao() {
 		return orgao;
 	}
 
 	public void setOrgao(Orgao orgao) {
 		this.orgao = orgao;
+	}*/
+	public Secretaria getSecretria() {
+		return secretria;
+	}
+
+	public void setSecretria(Secretaria secretria) {
+		this.secretria = secretria;
 	}
 
 	@Override
@@ -143,6 +150,8 @@ public class Funcionario {
 		return "Funcionario [id=" + id + ", nome=" + nome + ", matricula=" + matricula + ", email=" + email
 				+ ", telefone=" + telefone + ", login=" + login + ", senha=" + senha + "]";
 	}
+
+	
 
 	@Override
 	public int hashCode() {

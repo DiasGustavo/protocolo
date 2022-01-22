@@ -118,8 +118,11 @@
 						<p:outputLabel value="Status: " />
 						<p:selectOneMenu id="listaStatus"
 							value="#{protocoloBean.protocoloCadastro.status}">
+							<f:selectItem itemValue="recebido" itemLabel="Recebido" />
 							<f:selectItem itemValue="em análise" itemLabel="em análise" />
+							<f:selectItem itemValue="reencaminhado" itemLabel="Reencaminhado" />
 							<f:selectItem itemValue="analisado" itemLabel="analisado" />
+							<f:selectItem itemValue="arquivado" itemLabel="arquivado" />
 						</p:selectOneMenu>
 						<p:spacer/>
 						<p:spacer/>

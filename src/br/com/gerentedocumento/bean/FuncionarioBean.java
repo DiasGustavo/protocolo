@@ -10,8 +10,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import br.com.gerentedocumento.dao.FuncionarioDAO;
 import br.com.gerentedocumento.dao.OrgaoDAO;
+import br.com.gerentedocumento.dao.SecretariaDAO;
 import br.com.gerentedocumento.domain.Funcionario;
 import br.com.gerentedocumento.domain.Orgao;
+import br.com.gerentedocumento.domain.Secretaria;
 import br.com.gerentedocumento.util.FacesUtil;
 
 @ManagedBean
@@ -26,6 +28,7 @@ public class FuncionarioBean {
 	private List<Funcionario> listaFuncionarios;
 	private List<Funcionario> listaFuncionariosFiltrados;
 	private List<Orgao> listaOrgaos;
+	private List<Secretaria> listaSecretarias;
 	
 	private String acao;
 	private Long codigo;
@@ -56,6 +59,12 @@ public class FuncionarioBean {
 	}
 	public void setListaOrgaos(List<Orgao> listaOrgaos) {
 		this.listaOrgaos = listaOrgaos;
+	}
+	public List<Secretaria> getListaSecretarias() {
+		return listaSecretarias;
+	}
+	public void setListaSecretarias(List<Secretaria> listaSecretarias) {
+		this.listaSecretarias = listaSecretarias;
 	}
 	public String getAcao() {
 		return acao;
@@ -118,6 +127,9 @@ public class FuncionarioBean {
 			
 			OrgaoDAO odao = new OrgaoDAO();
 			listaOrgaos = odao.listar();
+			
+			SecretariaDAO sdao = new SecretariaDAO();
+			listaSecretarias = sdao.listar();
 			
 		}catch(RuntimeException ex){
 			FacesUtil.addMsgErro("Erro ao carregar os dados do Colaborador" + ex.getMessage());

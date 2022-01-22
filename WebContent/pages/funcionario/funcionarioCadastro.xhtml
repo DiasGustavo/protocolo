@@ -58,14 +58,15 @@
 
 				<p:outputLabel value="Orgão:"
 					rendered="#{autenticacaoBean.funcionarioLogado.funcao == 'administrador'}" />
-				<p:selectOneMenu id="listaOrgaos"
-					value="#{funcionarioBean.funCadastro.orgao}"
-					converter="orgaoConverter" filter="true"
+				<p:selectOneMenu id="listaSecretarias"
+					value="#{funcionarioBean.funCadastro.secretria}"
+					converter="secretariaConverter" filter="true"
 					filterMatchMode="startsWith" style="width: 99%;"
 					rendered="#{autenticacaoBean.funcionarioLogado.funcao == 'administrador'}">
-					<f:selectItem itemValue="" itemLabel="Selecione o Orgão" />
-					<f:selectItems value="#{funcionarioBean.listaOrgaos}" var="orgao"
-						itemValue="#{orgao}" itemLabel="#{orgao.nome}" />
+					<f:selectItem itemValue="" itemLabel="Selecione a Secretaria" />
+					<f:selectItems value="#{funcionarioBean.listaSecretarias}"
+						var="secretaria" itemValue="#{secretaria}"
+						itemLabel="#{secretaria.nome}" />
 					<f:validateBean />
 				</p:selectOneMenu>
 
@@ -98,25 +99,26 @@
 				</p:password>
 
 			</h:panelGrid>
-
-			<h:panelGrid columns="5">
-				<p:commandButton value="Novo" icon="ui-icon-plus"
-					actionListener="#{funcionarioBean.novo}"
-					update=":formCadFuncionario:pnlFuncionarioDados"
-					rendered="#{funcionarioBean.acao == 'novo'}" />
-				<p:commandButton value="Gravar" icon="ui-icon-disk"
-					actionListener="#{funcionarioBean.salvar}"
-					update=":msgGlobal :formCadFuncionario:pnlFuncionarioDados"
-					rendered="#{funcionarioBean.acao == 'novo'}" />
-				<p:button value="Voltar" icon="ui-icon-arrowreturnthick-1-w"
-					outcome="/pages/funcionario/funcionarioPesquisa.xhtml?faces-redirect=true" />
-				<p:commandButton value="Gravar" icon="ui-icon-disk"
-					actionListener="#{funcionarioBean.editar}" update=":msgGlobal"
-					rendered="#{funcionarioBean.acao == 'editar'}" />
-				<p:commandButton value="Excluir" icon="ui-icon-close"
-					oncomplete="PF('confirmacaoExcluir').show();"
-					rendered="#{funcionarioBean.acao == 'excluir'}" />
-			</h:panelGrid>
+			<p:fieldset id="botoes">
+				<h:panelGrid columns="5">
+					<p:commandButton value="Novo" icon="ui-icon-plus"
+						actionListener="#{funcionarioBean.novo}"
+						update=":formCadFuncionario:pnlFuncionarioDados"
+						rendered="#{funcionarioBean.acao == 'novo'}" />
+					<p:commandButton value="Gravar" icon="ui-icon-disk"
+						actionListener="#{funcionarioBean.salvar}"
+						update=":msgGlobal :formCadFuncionario:pnlFuncionarioDados"
+						rendered="#{funcionarioBean.acao == 'novo'}" />
+					<p:button value="Voltar" icon="ui-icon-arrowreturnthick-1-w"
+						outcome="/pages/funcionario/funcionarioPesquisa.xhtml?faces-redirect=true" />
+					<p:commandButton value="Gravar" icon="ui-icon-disk"
+						actionListener="#{funcionarioBean.editar}" update=":msgGlobal"
+						rendered="#{funcionarioBean.acao == 'editar'}" />
+					<p:commandButton value="Excluir" icon="ui-icon-close"
+						oncomplete="PF('confirmacaoExcluir').show();"
+						rendered="#{funcionarioBean.acao == 'excluir'}" />
+				</h:panelGrid>
+			</p:fieldset>
 		</h:form>
 
 		<!-- MENSAGEM PARA CONFIRMAÇÃO DE EXCLUSÃO -->

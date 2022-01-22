@@ -63,7 +63,7 @@ public class AutenticacaoBean {
 			OrgaoDAO odao = new OrgaoDAO();
 			
 			orgaoLogado = odao
-					.buscarPorRegistro(DigestUtils.md5Hex(funcionarioLogado.getOrgao().getCnpj() + funcionarioLogado.getOrgao().getNome()),getPegaDataAtual());
+					.buscarPorRegistro(DigestUtils.md5Hex(funcionarioLogado.getSecretria().getOrgao().getCnpj() + funcionarioLogado.getSecretria().getOrgao().getNome()),getPegaDataAtual());
 			
 			if (orgaoLogado == null) {
 				orgaoLogado = new Orgao();				

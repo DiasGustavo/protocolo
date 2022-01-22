@@ -188,11 +188,11 @@ public class DocumentoBean {
 				// EmailUtil.sendMessage("gustavouepb@gmail.com", "Cadastro",
 				// "documento Cadastrado");
 				String mensagem = this.mensagem(autenticacaoBean.getOrgaoLogado(), docCadastro, docCadastro.getStatus());
-				this.enviarEmail(autenticacaoBean.getFuncionarioLogado().getOrgao().getEmail(),
+				this.enviarEmail(autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getEmail(),
 						docCadastro.getEmpresa().getEmail(),
-						"Processo no Órgão " + autenticacaoBean.getFuncionarioLogado().getOrgao().getNome(), mensagem,
-						autenticacaoBean.getFuncionarioLogado().getOrgao().getTokenAcesso(),
-						autenticacaoBean.getFuncionarioLogado().getOrgao());
+						"Processo no Órgão " + autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getNome(), mensagem,
+						autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getTokenAcesso(),
+						autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao());
 				docCadastro = new Documento();
 
 				FacesUtil.addMsgInfo("Documento cadastrado com Sucesso!");
@@ -211,11 +211,11 @@ public class DocumentoBean {
 				CadastraDocumentoDAO cddao = new CadastraDocumentoDAO();
 				cddao.salvar(cadastra);
 				String mensagem = this.mensagem(autenticacaoBean.getOrgaoLogado(), docCadastro, docCadastro.getStatus());
-				this.enviarEmail(autenticacaoBean.getFuncionarioLogado().getOrgao().getEmail(),
+				this.enviarEmail(autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getEmail(),
 						docCadastro.getEmpresa().getEmail(),
-						"Processo no Órgão " + autenticacaoBean.getFuncionarioLogado().getOrgao().getNome(), mensagem,
-						autenticacaoBean.getFuncionarioLogado().getOrgao().getTokenAcesso(),
-						autenticacaoBean.getFuncionarioLogado().getOrgao());
+						"Processo no Órgão " + autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getNome(), mensagem,
+						autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getTokenAcesso(),
+						autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao());
 				docCadastro = new Documento();
 
 				FacesUtil.addMsgInfo("Documento cadastrado com Sucesso!");
@@ -393,8 +393,8 @@ public class DocumentoBean {
 
 	private String mensagem(Orgao orgao, Documento documento, String status) {
 		String message = "Mensagem instantânea do processo no Órgão "
-				+ autenticacaoBean.getFuncionarioLogado().getOrgao().getNome() + "<p>Processo de número: "
-				+ documento.getId() + " no Órgão " + autenticacaoBean.getFuncionarioLogado().getOrgao().getNome()
+				+ autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getNome() + "<p>Processo de número: "
+				+ documento.getId() + " no Órgão " + autenticacaoBean.getFuncionarioLogado().getSecretria().getOrgao().getNome()
 				+ "</p> </br>" + "Situação: " + status + "</br> Data: " + new Date() + "</br> contato: </br> E-mail: "
 				+ orgao.getEmail() + "</br> Telefone: " + orgao.getTelefone();
 
