@@ -3,7 +3,9 @@ package br.com.gerentedocumento.bean;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -267,7 +269,13 @@ public class ProtocoloBean {
 			
 		}else{
 			registro.setValor(1);
+			Calendar dataUltimoDiaAno = GregorianCalendar.getInstance();
+			//configurando o último dia do ano
+			dataUltimoDiaAno.set(Calendar.MONTH, 11); 
+			dataUltimoDiaAno.set(Calendar.DAY_OF_MONTH, 31);
+			registro.setDataUltimoDiaAno(dataUltimoDiaAno.getTime());
 			crdao.editar(registro);
+			
 			Date cal = new Date();
 			int anoTemp = cal.getYear();
 			int anoCapturado = anoTemp+1900;
