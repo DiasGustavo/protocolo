@@ -170,9 +170,9 @@ public class SecretariaBean {
 				EnderecoDAO edao = new EnderecoDAO();
 				enderecoCadastro = edao.buscarPorCodigo(secretariaCadastro.getEndereco().getId());
 				
-				FuncionarioDAO fdao = new FuncionarioDAO();
+				/*FuncionarioDAO fdao = new FuncionarioDAO();
 				funcionarioCadastro = fdao.buscarPorCodigo(secretariaCadastro.getFuncionario().getId());
-				
+				*/
 				OrgaoDAO odao = new OrgaoDAO();
 				orgaoCadastro = odao.buscarPorCodigo(secretariaCadastro.getOrgao().getId());
 			}else{

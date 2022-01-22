@@ -45,10 +45,12 @@ public class Secretaria {
 	@Column(name = "email", length = 100)
 	private String email;
 	
-	@NotNull(message = "O campo Funcionário é obrigatório")
+	/*@NotNull(message = "O campo Funcionário é obrigatório")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_funcionario", referencedColumnName = "cod_fun", nullable = false)
-	private Funcionario funcionario;
+	private Funcionario funcionario;*/
+	@Column(name = "telefone", length = 13)
+	private String telefone;
 	
 	@NotNull(message = "o campo orgão é obrigatório")
 	@ManyToOne(fetch =FetchType.EAGER)
@@ -84,16 +86,25 @@ public class Secretaria {
 		this.nome = nome;
 	}
 
-	public Funcionario getFuncionario() {
+	/*public Funcionario getFuncionario() {
 		return funcionario;
 	}
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
-	}
+	}*/
+	
 
 	public Orgao getOrgao() {
 		return orgao;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public void setOrgao(Orgao orgao) {
@@ -143,7 +154,7 @@ public class Secretaria {
 
 	@Override
 	public String toString() {
-		return "Secretaria [id=" + id + ", nome=" + nome + ", funcionario=" + funcionario + ", orgao=" + orgao + "]";
+		return "Secretaria [id=" + id + ", nome=" + nome  + ", orgao=" + orgao + "]";
 	}
 	
 }

@@ -3,9 +3,7 @@ package br.com.gerentedocumento.bean;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -20,10 +18,12 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import br.com.gerentedocumento.dao.ArquivoDAO;
+import br.com.gerentedocumento.dao.ControleRegistroDAO;
 import br.com.gerentedocumento.dao.FuncionarioDAO;
 import br.com.gerentedocumento.dao.ProtocoloDAO;
 import br.com.gerentedocumento.dao.SecretariaDAO;
 import br.com.gerentedocumento.domain.Arquivo;
+import br.com.gerentedocumento.domain.ControleRegistro;
 import br.com.gerentedocumento.domain.Funcionario;
 import br.com.gerentedocumento.domain.Protocolo;
 import br.com.gerentedocumento.domain.Secretaria;
@@ -238,6 +238,7 @@ public class ProtocoloBean {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public String gerarCodigoProtocolo(Long codigo){
 		/*buscar o protocolo criado para poder gerar o código do protocolo*/
 		ProtocoloDAO pdao = new ProtocoloDAO();
@@ -251,13 +252,45 @@ public class ProtocoloBean {
 		
 		//gera o código
 		//Date ano = null;
-		Calendar cal = GregorianCalendar.getInstance();
-		int anoCapturado = cal.get(Calendar.YEAR);
-		String codprotocolo = anoCapturado+protocoloed.getSecretaria().getCodigo()+protocoloed.getId();
+		Date dataAtual = getPegaDataAtual();
+		String codprotocolo = null;
+		String sequencial = null;
+		ControleRegistroDAO crdao = new ControleRegistroDAO();
+		ControleRegistro registro = crdao.buscarPorDescricao("protocolo");
+		
+		if(dataAtual.before(registro.getDataUltimoDiaAno())){					
+			Date cal = new Date();
+			int anoTemp = cal.getYear();
+			int anoCapturado = anoTemp+1900;
+			sequencial = String.format("%03d", registro.getValor());
+			codprotocolo = anoCapturado+protocoloed.getSecretaria().getCodigo()+sequencial;
+			
+		}else{
+			registro.setValor(1);
+			crdao.editar(registro);
+			Date cal = new Date();
+			int anoTemp = cal.getYear();
+			int anoCapturado = anoTemp+1900;
+			sequencial = String.format("%03d", registro.getValor());
+			codprotocolo = anoCapturado+protocoloed.getSecretaria().getCodigo()+ sequencial;
+		}
+		
 		protocoloed.setProtocolo(codprotocolo);
+		registro.setValor(registro.getValor() + 1);
+		crdao.editar(registro);
 		pdao.editar(protocoloed);
 		
 		return codprotocolo;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Date getPegaDataAtual() {
+		Date date = new Date();
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
+
+		return date;
 	}
 
 	public void carregarDados() {

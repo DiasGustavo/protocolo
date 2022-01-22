@@ -1,5 +1,7 @@
 package br.com.gerentedocumento.bean;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -62,6 +64,12 @@ public class ControleRegistroBean {
 	public void salvar(){
 		try{
 			ControleRegistroDAO cdao = new ControleRegistroDAO();
+			Calendar dataUltimoDiaAno = GregorianCalendar.getInstance();
+			//configurando o último dia do ano
+			dataUltimoDiaAno.set(Calendar.MONTH, 11); 
+			dataUltimoDiaAno.set(Calendar.DAY_OF_MONTH, 31);
+			
+			controleCadastro.setDataUltimoDiaAno(dataUltimoDiaAno.getTime());
 			cdao.salvar(controleCadastro);
 			
 			FacesUtil.addMsgInfo("Controle de Registro cadastrado com Sucesso!");

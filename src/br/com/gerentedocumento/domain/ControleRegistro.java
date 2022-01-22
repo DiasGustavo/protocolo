@@ -1,5 +1,7 @@
 package br.com.gerentedocumento.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
 @Table(name = "tbl_controle_registro")
@@ -28,6 +33,10 @@ public class ControleRegistro {
 	
 	@Column(name = "valor")
 	private int valor;
+	
+	@Temporal(value =TemporalType.DATE)
+	@Column(name = "dt_ultimo_dia")
+	private Date dataUltimoDiaAno;
 
 	public Long getId() {
 		return id;
@@ -51,6 +60,14 @@ public class ControleRegistro {
 
 	public void setValor(int valor) {
 		this.valor = valor;
+	}
+
+	public Date getDataUltimoDiaAno() {
+		return dataUltimoDiaAno;
+	}
+
+	public void setDataUltimoDiaAno(Date dataUltimoDiaAno) {
+		this.dataUltimoDiaAno = dataUltimoDiaAno;
 	}
 
 	@Override
