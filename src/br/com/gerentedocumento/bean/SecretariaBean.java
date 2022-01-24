@@ -1,15 +1,18 @@
 package br.com.gerentedocumento.bean;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import br.com.gerentedocumento.dao.ControleRegistroDAO;
 import br.com.gerentedocumento.dao.EnderecoDAO;
 import br.com.gerentedocumento.dao.FuncionarioDAO;
 import br.com.gerentedocumento.dao.OrgaoDAO;
 import br.com.gerentedocumento.dao.SecretariaDAO;
+import br.com.gerentedocumento.domain.ControleRegistro;
 import br.com.gerentedocumento.domain.Endereco;
 import br.com.gerentedocumento.domain.Funcionario;
 import br.com.gerentedocumento.domain.Orgao;
@@ -27,7 +30,7 @@ public class SecretariaBean {
 
 	private List<Secretaria> listaSecretarias;
 	private List<Secretaria> listaSecretariasFiltradas;
-	
+
 	private List<Endereco> listaEnderecos;
 	private List<Funcionario> listaFuncionarios;
 	private List<Orgao> listaOrgaos;
@@ -144,12 +147,30 @@ public class SecretariaBean {
 	public void salvar() {
 		try {
 			SecretariaDAO sdao = new SecretariaDAO();
+			secretariaCadastro.setCodigo(gerarCodigo());
 			sdao.salvar(secretariaCadastro);
 
 			FacesUtil.addMsgInfo("Secretaria Cadastrada com Sucesso!");
 		} catch (RuntimeException ex) {
 			FacesUtil.addMsgErro("Ocorreu um erro ao salvar a Secretaria \n " + ex.getMessage());
 		}
+	}
+
+	public String gerarCodigo() {
+		String codsecretaria = null;
+		String sequencial = null;
+		try {
+			ControleRegistroDAO crdao = new ControleRegistroDAO();
+			ControleRegistro registro = crdao.buscarPorDescricao("secretaria");
+			sequencial = String.format("%03d", registro.getValor());
+			codsecretaria = sequencial;
+			registro.setValor(registro.getValor() + 1);
+			crdao.editar(registro);
+		} catch (RuntimeException ex) {
+			FacesUtil.addMsgErro("Ocorreu um erro ao gerar o código da secretaria \n " + ex.getMessage());
+		}
+
+		return codsecretaria;
 	}
 
 	public void listar() {
@@ -161,21 +182,34 @@ public class SecretariaBean {
 		}
 	}
 
-	public void carregarDados(){
-		try{
-			if(codigo != null){
+	@SuppressWarnings("deprecation")
+	public Date getPegaDataAtual() {
+		Date date = new Date();
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
+
+		return date;
+	}
+
+	public void carregarDados() {
+		try {
+			if (codigo != null) {
 				SecretariaDAO sdao = new SecretariaDAO();
 				secretariaCadastro = sdao.buscarPorCodigo(codigo);
-				
+
 				EnderecoDAO edao = new EnderecoDAO();
 				enderecoCadastro = edao.buscarPorCodigo(secretariaCadastro.getEndereco().getId());
-				
-				/*FuncionarioDAO fdao = new FuncionarioDAO();
-				funcionarioCadastro = fdao.buscarPorCodigo(secretariaCadastro.getFuncionario().getId());
-				*/
+
+				/*
+				 * FuncionarioDAO fdao = new FuncionarioDAO();
+				 * funcionarioCadastro =
+				 * fdao.buscarPorCodigo(secretariaCadastro.getFuncionario().
+				 * getId());
+				 */
 				OrgaoDAO odao = new OrgaoDAO();
 				orgaoCadastro = odao.buscarPorCodigo(secretariaCadastro.getOrgao().getId());
-			}else{
+			} else {
 				secretariaCadastro = new Secretaria();
 				enderecoCadastro = new Endereco();
 				funcionarioCadastro = new Funcionario();
@@ -183,17 +217,17 @@ public class SecretariaBean {
 			}
 			EnderecoDAO edao = new EnderecoDAO();
 			listaEnderecos = edao.listar();
-			
+
 			FuncionarioDAO fdao = new FuncionarioDAO();
 			listaFuncionarios = fdao.listar();
-			
+
 			OrgaoDAO odao = new OrgaoDAO();
 			listaOrgaos = odao.listar();
-		}catch(RuntimeException ex){
+		} catch (RuntimeException ex) {
 			FacesUtil.addMsgErro("Erro ao carregar os dados da Secretaria " + ex.getMessage());
 		}
 	}
-	
+
 	public void editar() {
 		try {
 			SecretariaDAO sdao = new SecretariaDAO();
@@ -204,15 +238,15 @@ public class SecretariaBean {
 			FacesUtil.addMsgErro("Ocorreu um erro ao editar a Secretaria \n " + ex.getMessage());
 		}
 	}
-	
-	public String excluir(){
-		try{
+
+	public String excluir() {
+		try {
 			SecretariaDAO sdao = new SecretariaDAO();
 			sdao.excluir(secretariaCadastro);
-			
+
 			FacesUtil.addMsgInfo("Secretaria Excluída com Sucesso!");
-			return "/pages/secretaria/secretariaPesquisa.xhtml?faces-redirect=true"; 
-		}catch(RuntimeException ex){
+			return "/pages/secretaria/secretariaPesquisa.xhtml?faces-redirect=true";
+		} catch (RuntimeException ex) {
 			FacesUtil.addMsgErro("Ocorreu um erro ao excluir a Secretaria \n " + ex.getMessage());
 			return null;
 		}
